@@ -8,13 +8,6 @@ import ThemeToggle from "./ThemeToggle";
 
 const STORAGE_KEY = "tl-session";
 
-const STARTERS = [
-  "Tenho um negócio e não sei bem o que construir",
-  "Recebo muitas mensagens repetitivas de clientes",
-  "Quero marcar clientes automaticamente",
-  "Preciso de ajuda para qualificar leads",
-];
-
 interface FailedSend {
   text: string;
   clientMessageId: string;
@@ -183,17 +176,12 @@ export default function ChatApp() {
         className="flex items-center justify-between px-5 py-3"
         style={{ borderBottom: "1px solid var(--line)" }}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/go-logo.png" alt="GO Chat" className="h-7 w-auto object-contain" />
-          <div className="flex flex-col">
-            <span className="wordmark text-lg leading-none" style={{ color: "var(--ink)" }}>
-              GO Chat
-            </span>
-            <span className="mt-1 text-[11px]" style={{ color: "var(--ink-faint)" }}>
-              Encontre a coisa certa para construir
-            </span>
-          </div>
+          <img src="/go-chat-lockup.png" alt="GO Chat" className="h-8 w-auto object-contain" />
+          <span className="mt-0.5 text-[11px]" style={{ color: "var(--ink-faint)" }}>
+            Encontre a coisa certa para construir
+          </span>
         </div>
         <div className="flex items-center gap-1">
           {!empty && (
@@ -219,25 +207,13 @@ export default function ChatApp() {
             </div>
           </div>
         ) : empty ? (
-          <div className="flex h-full flex-col items-center justify-center px-2 text-center">
-            <div className="mb-6 flex items-center justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/go-logo.png" alt="GO Chat" className="h-20 w-auto object-contain" />
-            </div>
-            <h1 className="wordmark mb-2 text-2xl" style={{ color: "var(--ink)" }}>
-              Vamos conversar sobre isso
-            </h1>
-            <p className="mb-7 max-w-md text-[15px] leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-              Conte me sobre o seu negócio e o que parece mais difícil do que devia.
-              Farei algumas perguntas e depois sugiro uma solução que encaixa de verdade.
-            </p>
-            <div className="flex max-w-lg flex-wrap justify-center gap-2">
-              {STARTERS.map((s) => (
-                <button key={s} className="chip" onClick={() => send(s)}>
-                  {s}
-                </button>
-              ))}
-            </div>
+          <div className="flex h-full flex-col items-center justify-center px-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/go-symbol.png"
+              alt="GO"
+              className="h-24 w-auto object-contain sm:h-28"
+            />
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -263,15 +239,12 @@ export default function ChatApp() {
                 className="shrink-0 rounded-full px-3 py-1 font-medium"
                 style={{ background: "var(--surface)", color: "var(--ink)" }}
               >
-                Try again
+                Tentar novamente
               </button>
             )}
           </div>
         )}
         <Composer onSend={send} disabled={booting || typing || !sessionId} />
-        <p className="mt-2 text-center text-[11px]" style={{ color: "var(--ink-faint)" }}>
-          O GO Chat ouve, pergunta e recomenda. Nunca executa ações reais nas suas contas.
-        </p>
       </div>
     </div>
   );

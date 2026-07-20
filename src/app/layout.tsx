@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "GO Chat",
   description:
     "Uma conversa calma que transforma a sua situação numa recomendação clara do que construir.",
-  icons: { icon: "/go-logo.png" },
+  icons: { icon: "/go-symbol.png" },
 };
 
 export const viewport: Viewport = {
