@@ -39,4 +39,38 @@ describe("sanitizeUserFacing", () => {
     expect(containsForbidden(out)).toBe(false);
     expect(out).toBe("open 9 5 today");
   });
+
+  it("catches the non breaking hyphen a live Groq response used for a Portuguese enclitic", () => {
+    // Regression test. U+2011 is a distinct codepoint from the ASCII hyphen and from the
+    // en/em dash group, it was missed by an earlier version of this sanitizer and reached
+    // production in a reply that read "poderia dizer‑me quantas mensagens".
+    const raw = "poderia dizer‑me quantas mensagens recebe";
+    expect(containsForbidden(raw)).toBe(true);
+    const out = sanitizeUserFacing(raw);
+    expect(out).toBe("poderia dizer me quantas mensagens recebe");
+    expect(containsForbidden(out)).toBe(false);
+  });
+
+  it("catches the plain Unicode hyphen U+2010, distinct from the ASCII hyphen minus", () => {
+    const raw = "um plano bem‐feito";
+    expect(containsForbidden(raw)).toBe(true);
+    const out = sanitizeUserFacing(raw);
+    expect(out).toBe("um plano bem feito");
+    expect(containsForbidden(out)).toBe(false);
+  });
+
+  it("turns a figure dash and a horizontal bar into readable punctuation", () => {
+    expect(containsForbidden("valor‒ 3 euros")).toBe(true);
+    expect(containsForbidden("preço― alto")).toBe(true);
+    const out = sanitizeUserFacing("preço ― alto");
+    expect(out).toBe("preço, alto");
+    expect(containsForbidden(out)).toBe(false);
+  });
+
+  it("catches the fullwidth and small hyphen variants", () => {
+    expect(containsForbidden("a－b")).toBe(true);
+    expect(containsForbidden("a﹣b")).toBe(true);
+    const out = sanitizeUserFacing("a－b");
+    expect(containsForbidden(out)).toBe(false);
+  });
 });
