@@ -1,0 +1,10 @@
+/node_modules
+/.next
+/out
+/build
+.env.local
+.env
+*.log
+.DS_Store
+/.throughline-data
+next-env.d.ts.timestamp
