@@ -8,3 +8,4 @@
 .DS_Store
 /.throughline-data
 next-env.d.ts.timestamp
+*.tsbuildinfo
