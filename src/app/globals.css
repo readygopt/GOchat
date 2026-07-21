@@ -169,19 +169,22 @@ body {
   }
 }
 
-.chip {
+/* A quiet conversation starter. Reads as an example of something you could type, not a call
+   to action, so it stays lighter than a real button: no filled surface at rest, just a hairline
+   border and soft text. */
+.starter {
   border: 1px solid var(--line);
-  background: var(--surface);
+  background: transparent;
   color: var(--ink-soft);
   border-radius: 9999px;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.86rem;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.84rem;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
   transition: all 0.15s ease;
 }
-.chip:hover {
+.starter:hover {
   border-color: var(--accent);
   color: var(--accent-ink);
   background: var(--accent-soft);

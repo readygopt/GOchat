@@ -9,10 +9,9 @@ import ThemeToggle from "./ThemeToggle";
 const STORAGE_KEY = "tl-session";
 
 const STARTERS = [
-  "Tenho um negócio e não sei bem o que construir",
-  "Recebo muitas mensagens repetitivas de clientes",
-  "Quero marcar clientes automaticamente",
-  "Preciso de ajuda para qualificar leads",
+  "Recebo sempre as mesmas perguntas dos clientes",
+  "Ainda não sei bem o que preciso de construir",
+  "Quero perceber que tarefas dá para automatizar",
 ];
 
 interface FailedSend {
@@ -177,25 +176,37 @@ export default function ChatApp() {
 
   const empty = messages.length === 0;
 
+  const errorBanner = error ? (
+    <div
+      className="mb-2 flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-[13px]"
+      style={{ background: "var(--accent-soft)", color: "var(--danger)" }}
+    >
+      <span>{error}</span>
+      {failedRef.current && (
+        <button
+          onClick={retry}
+          className="shrink-0 rounded-full px-3 py-1 font-medium"
+          style={{ background: "var(--surface)", color: "var(--ink)" }}
+        >
+          Tentar novamente
+        </button>
+      )}
+    </div>
+  ) : null;
+
   return (
     <div className="mx-auto flex h-[100dvh] max-w-3xl flex-col">
       <header
         className="flex shrink-0 items-center justify-between gap-2 px-4 py-2.5 sm:px-5 sm:py-3"
         style={{ borderBottom: "1px solid var(--line)" }}
       >
-        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+        <div className="flex min-w-0 items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/go-chat-lockup.png"
             alt="GO Chat"
-            className="h-6 w-auto shrink-0 object-contain sm:h-8"
+            className="h-6 w-auto shrink-0 object-contain sm:h-7"
           />
-          <span
-            className="hidden truncate text-[11px] sm:block"
-            style={{ color: "var(--ink-faint)" }}
-          >
-            Encontre a coisa certa para construir
-          </span>
         </div>
         <div className="flex shrink-0 items-center gap-1">
           {!empty && (
@@ -221,34 +232,27 @@ export default function ChatApp() {
             </div>
           </div>
         ) : empty ? (
-          <div className="flex min-h-full flex-col items-center justify-center px-2 py-3 text-center max-[380px]:py-2">
-            <div className="mb-5 flex items-center justify-center max-[380px]:mb-3 sm:mb-6">
+          <div className="flex min-h-full flex-col items-center justify-center px-2 text-center">
+            <div className="mb-4 flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/go-symbol.png"
-                alt="GO"
-                className="h-16 w-auto object-contain max-[380px]:h-12 sm:h-20"
-              />
+              <img src="/go-symbol.png" alt="GO" className="h-8 w-auto object-contain sm:h-9" />
             </div>
             <h1
-              className="wordmark mb-2 text-xl max-[380px]:mb-1.5 sm:text-2xl"
+              className="mb-5 text-lg font-medium sm:mb-6 sm:text-xl"
               style={{ color: "var(--ink)" }}
             >
-              Vamos conversar sobre isso
+              Fale me sobre o seu negócio.
             </h1>
-            <p
-              className="mb-6 max-w-md text-[15px] leading-relaxed max-[380px]:mb-4 max-[380px]:text-sm sm:mb-7"
-              style={{ color: "var(--ink-soft)" }}
-            >
-              Conte me sobre o seu negócio e o que parece mais difícil do que devia.
-              Farei algumas perguntas e depois sugiro uma solução que encaixa de verdade.
-            </p>
-            <div className="flex max-w-lg flex-wrap justify-center gap-2 sm:max-w-3xl">
+            <div className="mb-6 flex w-full max-w-xl flex-wrap justify-center gap-2 sm:mb-7">
               {STARTERS.map((s) => (
-                <button key={s} className="chip" onClick={() => send(s)}>
+                <button key={s} className="starter" onClick={() => send(s)}>
                   {s}
                 </button>
               ))}
+            </div>
+            <div className="w-full max-w-2xl">
+              {errorBanner}
+              <Composer onSend={send} disabled={typing || !sessionId} />
             </div>
           </div>
         ) : (
@@ -262,26 +266,14 @@ export default function ChatApp() {
         )}
       </main>
 
-      <div className="shrink-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5 sm:pb-5">
-        {error && (
-          <div
-            className="mb-2 flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-[13px]"
-            style={{ background: "var(--accent-soft)", color: "var(--danger)" }}
-          >
-            <span>{error}</span>
-            {failedRef.current && (
-              <button
-                onClick={retry}
-                className="shrink-0 rounded-full px-3 py-1 font-medium"
-                style={{ background: "var(--surface)", color: "var(--ink)" }}
-              >
-                Tentar novamente
-              </button>
-            )}
+      {!booting && !empty && (
+        <div className="shrink-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5 sm:pb-6">
+          <div className="mx-auto w-full sm:max-w-2xl">
+            {errorBanner}
+            <Composer onSend={send} disabled={typing || !sessionId} />
           </div>
-        )}
-        <Composer onSend={send} disabled={booting || typing || !sessionId} />
-      </div>
+        </div>
+      )}
     </div>
   );
 }
