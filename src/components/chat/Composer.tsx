@@ -37,10 +37,10 @@ export default function Composer({
   }
 
   return (
-    <div className="composer flex items-end gap-2 px-3 py-2">
+    <div className="composer flex items-end gap-2 px-3 py-2 sm:gap-2.5">
       <textarea
         ref={ref}
-        className="field max-h-40 py-1.5 text-[15px] leading-relaxed"
+        className="field max-h-40 py-2.5 text-[16px] leading-relaxed sm:py-2 sm:text-[15px]"
         rows={1}
         placeholder="Escreva a sua mensagem"
         value={value}
@@ -52,12 +52,12 @@ export default function Composer({
         aria-label="Mensagem"
       />
       <button
-        className="send-btn mb-0.5 flex h-9 w-9 shrink-0 items-center justify-center"
+        className="send-btn flex h-11 w-11 shrink-0 items-center justify-center sm:h-10 sm:w-10"
         onClick={submit}
         disabled={disabled || !value.trim()}
         aria-label="Enviar mensagem"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M7 11l5-5 5 5M12 6v13" />
         </svg>
       </button>

@@ -88,6 +88,8 @@
 html,
 body {
   height: 100%;
+  /* Belt and suspenders. No element should ever force a horizontal scrollbar. */
+  overflow-x: hidden;
 }
 
 body {
@@ -174,6 +176,9 @@ body {
   border-radius: 9999px;
   padding: 0.4rem 0.85rem;
   font-size: 0.86rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   transition: all 0.15s ease;
 }
 .chip:hover {

@@ -28,7 +28,7 @@ export default function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Alternar entre claro e escuro"
-      className="rounded-full p-2 transition hover:bg-[var(--surface-muted)]"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:bg-[var(--surface-muted)] sm:h-9 sm:w-9"
       style={{ color: "var(--ink-soft)" }}
     >
       {theme === "dark" ? (

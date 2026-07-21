@@ -8,6 +8,13 @@ import ThemeToggle from "./ThemeToggle";
 
 const STORAGE_KEY = "tl-session";
 
+const STARTERS = [
+  "Tenho um negócio e não sei bem o que construir",
+  "Recebo muitas mensagens repetitivas de clientes",
+  "Quero marcar clientes automaticamente",
+  "Preciso de ajuda para qualificar leads",
+];
+
 interface FailedSend {
   text: string;
   clientMessageId: string;
@@ -173,21 +180,28 @@ export default function ChatApp() {
   return (
     <div className="mx-auto flex h-[100dvh] max-w-3xl flex-col">
       <header
-        className="flex items-center justify-between px-5 py-3"
+        className="flex shrink-0 items-center justify-between gap-2 px-4 py-2.5 sm:px-5 sm:py-3"
         style={{ borderBottom: "1px solid var(--line)" }}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/go-chat-lockup.png" alt="GO Chat" className="h-8 w-auto object-contain" />
-          <span className="mt-0.5 text-[11px]" style={{ color: "var(--ink-faint)" }}>
+          <img
+            src="/go-chat-lockup.png"
+            alt="GO Chat"
+            className="h-6 w-auto shrink-0 object-contain sm:h-8"
+          />
+          <span
+            className="hidden truncate text-[11px] sm:block"
+            style={{ color: "var(--ink-faint)" }}
+          >
             Encontre a coisa certa para construir
           </span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1">
           {!empty && (
             <button
               onClick={startOver}
-              className="rounded-full px-3 py-1.5 text-[13px] transition hover:bg-[var(--surface-muted)]"
+              className="rounded-full px-3 py-2 text-[13px] transition hover:bg-[var(--surface-muted)] sm:py-1.5"
               style={{ color: "var(--ink-soft)" }}
             >
               Nova conversa
@@ -197,9 +211,9 @@ export default function ChatApp() {
         </div>
       </header>
 
-      <main className="scroll-area flex-1 overflow-y-auto px-4 py-5 sm:px-5">
+      <main className="scroll-area min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-5">
         {booting ? (
-          <div className="flex h-full items-center justify-center">
+          <div className="flex min-h-full items-center justify-center">
             <div className="flex items-center gap-1.5">
               <span className="typing-dot" />
               <span className="typing-dot" />
@@ -207,13 +221,35 @@ export default function ChatApp() {
             </div>
           </div>
         ) : empty ? (
-          <div className="flex h-full flex-col items-center justify-center px-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/go-symbol.png"
-              alt="GO"
-              className="h-24 w-auto object-contain sm:h-28"
-            />
+          <div className="flex min-h-full flex-col items-center justify-center px-2 py-3 text-center max-[380px]:py-2">
+            <div className="mb-5 flex items-center justify-center max-[380px]:mb-3 sm:mb-6">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/go-symbol.png"
+                alt="GO"
+                className="h-16 w-auto object-contain max-[380px]:h-12 sm:h-20"
+              />
+            </div>
+            <h1
+              className="wordmark mb-2 text-xl max-[380px]:mb-1.5 sm:text-2xl"
+              style={{ color: "var(--ink)" }}
+            >
+              Vamos conversar sobre isso
+            </h1>
+            <p
+              className="mb-6 max-w-md text-[15px] leading-relaxed max-[380px]:mb-4 max-[380px]:text-sm sm:mb-7"
+              style={{ color: "var(--ink-soft)" }}
+            >
+              Conte me sobre o seu negócio e o que parece mais difícil do que devia.
+              Farei algumas perguntas e depois sugiro uma solução que encaixa de verdade.
+            </p>
+            <div className="flex max-w-lg flex-wrap justify-center gap-2 sm:max-w-3xl">
+              {STARTERS.map((s) => (
+                <button key={s} className="chip" onClick={() => send(s)}>
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -226,7 +262,7 @@ export default function ChatApp() {
         )}
       </main>
 
-      <div className="px-4 pb-4 sm:px-5">
+      <div className="shrink-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5 sm:pb-5">
         {error && (
           <div
             className="mb-2 flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-[13px]"
